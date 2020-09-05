@@ -13,7 +13,7 @@ Plexyglass metrics are 1 x 39 mm (thickness x dia).
 
 Pay atention on the wrist strap pins, the hole is only 1mm deep and can easy snap off in a short time. This hole must be filled with a 1mm tube. 
  
-For any questions see the p3dt discord channel #avata-stl (https://discord.gg/94ykXW) or contact me on instagram @techno_turk.
+For any questions see the p3dt discord channel #avata-stl or contact me on instagram @techno_turk.
  
 Future plans can be added on later version:
  
