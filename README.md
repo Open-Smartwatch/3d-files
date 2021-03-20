@@ -1,11 +1,18 @@
 # Open-Smartwatch 3D Files
 
-This repository contains the 3D design files:
+How to read the folder names:
 
-- **case/:** design files matching the PCB from [https://github.com/Open-Smartwatch/kicad-project](https://github.com/Open-Smartwatch/kicad-project)
-- **community-files/:** other files/design made by the community (@TechnoTurk)
-- **watch-faces/:** tests to render watchfaces (background images) with blender
+- first part:
+-- light edition
+-- gps edition
+- second part:
+-- 0.8mm pcb
+-- 1.6mm pcb
+- third part:
+-- 20mm pin wrist straps
+-- 3d printed wrist straps
 
+The case requires 10mm M2 hex screws. The pinted straps require 6mm M2 hex screws.
 
 ## Tools
 
