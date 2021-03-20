@@ -4,6 +4,7 @@ How to read the folder names:
 
 - first part:
   - light edition
+  - lieght edition with round lipo
   - gps edition
 - second part:
   - 0.8mm pcb
