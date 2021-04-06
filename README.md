@@ -13,7 +13,7 @@ How to read the folder names:
   - 20mm pin wrist straps
   - 3d printed wrist straps
 
-The case requires 10mm M2 hex screws. The pinted straps require 6mm M2 hex screws.
+The case requires 10mm M2 hex screws. The printed straps require 6mm M2 hex screws.
 
 ## Tools
 
