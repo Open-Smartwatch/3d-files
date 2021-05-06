@@ -1,4 +1,6 @@
-include <base.scad>;
+include <common.scad>;
+
+use_single_piece_buttons = false;
 
 lcd_parts_height = 6.0 - 1.6;
 electronics_height = lcd_parts_height + pcb_h;
@@ -23,12 +25,27 @@ bot_cut_wall_w = 1.2;
 usb_w = 8.3;
 usb_h = 3.8;
 
-mid_button_width = 4.3;
+mid_strap_cut_w = 10;
+mid_strap_cut_h = 5;
+mid_strap_cut_d = mid_strap_cut_h - 1;
+mid_strap_cut_off_y = 1.1;
+mid_strap_cut_off_z = 0.5;
+
+mid_button_width = 4.3 - 0.3;
 mid_button_height = 3.0;
 mid_button_depth = 4.0;
 mid_button_gap_width = 2.6;
 mid_button_gap_wall = 1.6;
 mid_button_off = 1.3; //pcb_h - 0.3;
+mid_button_holder_width = 5.4;
+mid_button_holder_depth = 1.4;
+
+button_height = 2.2;
+button_length = 5.0;
+button_width = 3.7;
+button_radius = 0.5;
+button_wing = 0.5;
+button_wing_len = 1.0;
 
 mid_snap_dia = 2;
 mid_snap_off = 2.5 + 0.2;
@@ -47,17 +64,109 @@ module mid_cutout(h) {
     }
 }
 
-module mid_button() {
+module mid_button_cut_original() {
     translate([-mid_button_width / 2, -1, 0])
     cube([mid_button_width, mid_button_depth + 2, mid_button_height]);
+    
+    translate([-mid_button_holder_width / 2, (body_dia - electronics_dia) / 2 - mid_button_holder_depth, 0])
+    cube([mid_button_holder_width, mid_button_holder_depth + 1, mid_button_height]);
     
     translate([-mid_button_gap_width / 2, mid_button_gap_wall, mid_button_height - 1])
     cube([mid_button_gap_width, mid_button_depth - mid_button_gap_wall + 1, mid_height]);
 }
 
-module mid() {
+module mid_button_original() {
+    translate([button_width + button_wing, 0, button_length])
+    rotate([0, 180, 0])
+    roundedcube(button_width, button_height, button_length, button_radius, true);
+    
+    cube([button_wing + button_radius, button_height, button_wing_len]);
+    
+    translate([button_width, 0, 0])
+    cube([button_wing + button_radius, button_height, button_wing_len]);
+}
+
+module mid_buttons_original() {
+    for (i = [button_angle_r, button_angle_1, button_angle_2, button_angle_3]) {
+        rotate([0, 0, i])
+        translate([-button_width / 2 - button_wing, -body_dia / 2 + button_length - button_wing_len, button_height])
+        rotate([90, 0, 0])
+        mid_button_original();
+    }
+}
+
+module buttons_cutouts() {
+    if (use_single_piece_buttons) {
+        // TODO
+    } else {
+        mid_button_cut_original();
+    }
+}
+
+module buttons_print() {
+    if (use_single_piece_buttons) {
+        // TODO
+    } else {
+        translate([button_height, 0, 0])
+        rotate([0, 0, 90])
+        mid_button_original();
+        
+        translate([button_height * 2 + 2, 0, 0])
+        rotate([0, 0, 90])
+        mid_button_original();
+        
+        translate([button_height * 3 + 4, 0, 0])
+        rotate([0, 0, 90])
+        mid_button_original();
+        
+        translate([button_height * 4 + 6, 0, 0])
+        rotate([0, 0, 90])
+        mid_button_original();
+    }
+}
+
+module buttons_assembly() {
+    if (use_single_piece_buttons) {
+        // TODO
+    } else {
+        mid_buttons_original();
+    }
+}
+
+module mid_body_cut_2() {
+    translate([-mid_strap_cut_w / 2, -body_dia / 2 - 7, mid_height - 5])
+    rotate([45, 0, 45])
+    cube([5, 10, 1]);
+}
+
+module mid_body_cut() {
+    translate([-mid_strap_cut_w / 2, -body_dia / 2 + mid_strap_cut_off_y, mid_height + mid_strap_cut_off_z])
+    rotate([180, 0, 0])
+    prism(mid_strap_cut_w, mid_strap_cut_d, mid_strap_cut_h);
+    
+    mid_body_cut_2();
+    
+    scale([-1, 1, 1])
+    mid_body_cut_2();
+}
+
+module mid_body() {
     difference() {
         body(mid_height);
+        
+        mid_body_cut();
+        
+        scale([1, -1, 1])
+        mid_body_cut();
+    }
+    
+    translate([0, 0, mid_height - 1])
+    cylinder(d = body_dia, h = 1);
+}
+
+module mid() {
+    difference() {
+        mid_body();
         
         rotate([0, 0, 180])
         translate([0, -cut_off, -1])
@@ -68,18 +177,11 @@ module mid() {
         
         usb_flatten(mid_height);
         
-        rotate([0, 0, button_angle_r])
-        translate([0, -body_dia / 2, mid_base + mid_button_off])
-        mid_button();
-        rotate([0, 0, button_angle_1])
-        translate([0, -body_dia / 2, mid_base + mid_button_off])
-        mid_button();
-        rotate([0, 0, button_angle_2])
-        translate([0, -body_dia / 2, mid_base + mid_button_off])
-        mid_button();
-        rotate([0, 0, button_angle_3])
-        translate([0, -body_dia / 2, mid_base + mid_button_off])
-        mid_button();
+        for (i = [button_angle_r, button_angle_1, button_angle_2, button_angle_3]) {
+            rotate([0, 0, i])
+            translate([0, -body_dia / 2, mid_base + mid_button_off])
+            buttons_cutouts();
+        }
         
         translate([0, 0, -1])
         base_screws(false, true);
@@ -115,3 +217,4 @@ module mid() {
 }
 
 //mid();
+//#buttons_assembly();

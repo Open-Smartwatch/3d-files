@@ -4,7 +4,7 @@ strap_piece_body_w = 5;
 strap_piece_body_h = 20;
 strap_latch_l = 6.8;
 strap_latch_gap = 2 * 0.2;
-strap_radius = 0.0;
+strap_radius = 1.0;
 
 strap_latch_w_body = base_strap_w + strap_latch_gap; //13.4;
 
@@ -15,7 +15,7 @@ strap_rows = 2;
 strap_cols = 6;
 strap_piece_dist = 5;
 
-module strap_latch(long = false) {
+module strap_latch(long = false, id = 0) {
     if (long) {
         translate([strap_latch_l - strap_radius, 0, 0])
         roundedcube(strap_d / 2 + strap_radius, strap_latch_wl, strap_d, strap_radius, true, true);
@@ -55,14 +55,28 @@ module strap_latch(long = false) {
             cylinder(d = screw_dia, h = strap_latch_ws + 2);
         }
     }
+    
+    if (!long) {
+        if (visualize_screws) {
+            if (id == 1) {
+                %translate([strap_d / 2, 0, strap_d / 2 + screw_visual_off])
+                rotate([90, 0, 0])
+                screw(false, false, screw_len_strap);
+            } else if (id == 2) {
+                %translate([strap_d / 2, strap_latch_ws, strap_d / 2 + screw_visual_off])
+                rotate([-90, 0, 0])
+                screw(false, false, screw_len_strap);
+            }
+        }
+    }
 }
 
 module strap_piece(latch_dist = strap_latch_dist) {
     translate([0, (strap_piece_body_h - latch_dist) / 2 - strap_latch_ws, 0]) {
-        strap_latch(false);
+        strap_latch(false, 1);
         
         translate([0, strap_latch_ws + latch_dist, 0])
-        strap_latch(false);
+        strap_latch(false, 2);
     }
     
     translate([strap_latch_l, 0, 0])

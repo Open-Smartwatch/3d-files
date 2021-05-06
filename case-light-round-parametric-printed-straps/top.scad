@@ -27,12 +27,13 @@ module face_base() {
     cylinder(d1 = face_cyl_1_dia, d2 = face_cyl_2_dia, h = face_cyl_2_height);
 }
 
-module face_mount() {
+module face_mount(for_top = true, base = face_mount_base) {
     difference() {
         hull() {
             translate([-face_mount_w / 2, -face_mount_d / 2, 0])
-            roundedcube(face_mount_w, face_mount_d, face_mount_base, body_radius);
+            roundedcube(face_mount_w, face_mount_d, base, body_radius);
             
+            if (for_top)
             difference() {
                 translate([mount_dist_w / 2, mount_dist_h / 2, 0])
                 face_base();
@@ -48,26 +49,27 @@ module face_mount() {
             }
         }
         
-        translate([0, 0, face_mount_base])
+        if (for_top)
+        translate([0, 0, base])
         screw();
     }
 }
 
-module face_mounts() {
+module face_mounts(for_top = true, base = face_mount_base) {
     translate([-mount_dist_w / 2, -mount_dist_h / 2, 0])
-    face_mount();
+    face_mount(for_top, base);
     
     translate([mount_dist_w / 2, -mount_dist_h / 2, 0])
     scale([-1, 1, 1])
-    face_mount();
+    face_mount(for_top, base);
     
     translate([-mount_dist_w / 2, mount_dist_h / 2, 0])
     scale([1, -1, 1])
-    face_mount();
+    face_mount(for_top, base);
     
     translate([mount_dist_w / 2, mount_dist_h / 2, 0])
     scale([-1, -1, 1])
-    face_mount();
+    face_mount(for_top, base);
 }
 
 module face_whole() {

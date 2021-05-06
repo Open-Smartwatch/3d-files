@@ -14,9 +14,10 @@ base_mount_d = 10;
 base_mount_off = 1.65;
 
 nut_dia = 2.0;
-screw_gap = 0.2;
+screw_gap = 0.3;
 screw_dia = nut_dia + screw_gap;
-screw_head_dia = 4.0;
+screw_head_dia = 5.0;
+screw_head_height = 2.3;
 
 usb_flat = 0.7;
 
@@ -33,7 +34,19 @@ strap_latch_wl = 8.4;
 base_strap_w = strap_latch_wl; //12.2;
 base_strap_add_l = 0.3;
 
+visualize_screws = false;
+screw_visual_off = 5;
+screw_len_body = 12;
+screw_len_strap = 7.5;
+
 $fn = 42;
+
+module prism(l, w, h) {
+    polyhedron(
+        points = [[0,0,0], [l,0,0], [l,w,0], [0,w,0], [0,w,h], [l,w,h]],
+        faces = [[0,1,2,3],[5,4,3,2],[0,4,5,1],[0,3,4],[5,2,1]]
+    );
+}
 
 module usb_flatten(h) {
     translate([-body_dia / 2, -body_dia / 2, -1])
@@ -150,42 +163,50 @@ module roundedcube(x, y, z, r, round_bot = false, round_top = false) {
     }
 }
 
-module screw_part(add) {
-    cylinder(d = screw_head_dia, h = 10);
-    translate([0, 0, -20])
-    cylinder(d = screw_dia + add, h = 21);
+module screw_part(add, height = 0) {
+    if (height == 0) {
+        cylinder(d = screw_head_dia, h = 10);
+        
+        translate([0, 0, -20])
+        cylinder(d = screw_dia + add, h = 21);
+    } else {
+        cylinder(d = screw_head_dia, h = screw_head_height);
+        
+        translate([0, 0, -height])
+        cylinder(d = screw_dia + add, h = height + 1);
+    }
 }
 
-module screw(nut = false, bottom = false) {
+module screw(nut = false, bottom = false, height = 20) {
     if (nut) {
         if (bottom) {
-            translate([0, 0, 20])
-            screw_part(-screw_gap);
+            translate([0, 0, height])
+            screw_part(-screw_gap, height);
         } else {
-            screw_part(-screw_gap);
+            screw_part(-screw_gap, height);
         }
     } else {
         if (bottom) {
-            translate([0, 0, 20])
-            screw_part(0);
+            translate([0, 0, height])
+            screw_part(0, height);
         } else {
-            screw_part(0);
+            screw_part(0, height);
         }
     }
 }
 
 module base_screws(nut = true, bottom = true) {
-    translate([-mount_dist_w / 2, -mount_dist_h / 2, 0])
-    screw(nut, bottom);
-    
-    translate([mount_dist_w / 2, -mount_dist_h / 2, 0])
-    screw(nut, bottom);
-    
-    translate([-mount_dist_w / 2, mount_dist_h / 2, 0])
-    screw(nut, bottom);
-    
-    translate([mount_dist_w / 2, mount_dist_h / 2, 0])
-    screw(nut, bottom);
+    for (i = [1, -1]) {
+        for (j = [1, -1]) {
+            translate([i * mount_dist_w / 2, j * mount_dist_h / 2, 0])
+            screw(nut, bottom);
+            
+            if (visualize_screws) {
+                %translate([i * mount_dist_w / 2 - screw_visual_off + 1, j * mount_dist_h / 2, 0])
+                screw(nut, bottom);
+            }
+        }
+    }
 }
 
 module body(h, rounded = false) {

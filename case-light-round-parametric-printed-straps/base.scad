@@ -2,6 +2,7 @@ include <common.scad>;
 
 base_bottom = 1.5;
 base_wall = 4.0;
+base_screw_len_add = 0.4 + 0.3;
 
 base_bat_dia = 35.5;
 base_bat_cut_w = 22;
@@ -67,7 +68,7 @@ module base() {
         translate([0, 0, base_bottom - 1])
         base_bat(base_wall + 2);
         
-        translate([0, 0, base_bottom])
+        translate([0, 0, base_bottom - base_screw_len_add])
         base_screws();
         
         usb_flatten(base_height);
