@@ -7,8 +7,8 @@ view_assembly = false;
 
 assembly_dist = 0;
 print_dist = 5;
-assembly_strap_angle = 50;
-assembly_strap_off = 2;
+assembly_strap_angle = 16.5;
+assembly_strap_off = 1.3 + base_strap_add_l;
 
 module assembly() {
     color("green")

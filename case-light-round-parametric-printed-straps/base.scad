@@ -1,4 +1,4 @@
-include <top.scad>;
+include <common.scad>;
 
 base_bottom = 1.5;
 base_wall = 4.0;
@@ -8,9 +8,12 @@ base_bat_cut_w = 22;
 base_bat_cut_h = 3;
 base_bat_cut_off = 0.9;
 
-base_mount_w = mount_dist_w + face_mount_w;
-base_mount_d = 10;
-base_mount_off = 1.65;
+base_strap_h = 7.8;
+base_strap_d = 5.2 + base_strap_add_l;
+base_strap_cyl = 3;
+base_strap_warp = 1;
+base_strap_cut = 0.1;
+base_strap_off = body_radius;
 
 base_height = base_bottom + base_wall;
 
@@ -26,34 +29,23 @@ module base_bat(h) {
     cube([base_bat_cut_w, base_bat_cut_h, h]);
 }
 
-module base_screws(nut = true) {
-    translate([-mount_dist_w / 2, -mount_dist_h / 2, 0])
-    screw(nut);
-    
-    translate([mount_dist_w / 2, -mount_dist_h / 2, 0])
-    screw(nut);
-    
-    translate([-mount_dist_w / 2, mount_dist_h / 2, 0])
-    screw(nut);
-    
-    translate([mount_dist_w / 2, mount_dist_h / 2, 0])
-    screw(nut);
-}
-
-module body(h, rounded = false) {
-    union() {
-    if (rounded) {
-        roundedcylinder(body_dia, h, body_radius);
-    } else {
-        cylinder(d = body_dia, h = h);
-    }
-    
-    translate([-base_mount_w / 2, -body_dia / 2 - base_mount_off, 0])
-    roundedcube(base_mount_w, base_mount_d, h, body_radius, rounded);
-
-    scale([1, -1, 1])
-    translate([-base_mount_w / 2, -body_dia / 2 - base_mount_off, 0])
-    roundedcube(base_mount_w, base_mount_d, h, body_radius, rounded);
+module base_strap() {
+    translate([-base_strap_w / 2, 0, 0])
+    difference() {
+        hull() {
+            cube([base_strap_w, 0.1, base_strap_h]);
+            
+            translate([0, base_strap_d - 0.1 - base_strap_cyl / 2, base_strap_h / 2 - 0.05 + base_strap_warp])
+            rotate([0, 90, 0])
+            cylinder(d = base_strap_cyl, h = base_strap_w);
+        }
+        
+        translate([-1, base_strap_d - strap_d / 2, base_strap_h / 2 + base_strap_warp])
+        rotate([0, 90, 0])
+        screw(true, true);
+        
+        translate([-0.1, -0.1, -base_strap_off + base_height])
+        cube([base_strap_w + 0.2, base_strap_cut + 0.1, base_strap_h]);
     }
 }
 
@@ -64,6 +56,12 @@ module base() {
             
             translate([0, 0, base_bottom])
             body(base_wall, false);
+            
+            for (i = [-1, 1]) {
+                scale([1, i, 1])
+                translate([0, body_dia / 2 + base_mount_off, base_strap_off])
+                base_strap();
+            }
         }
         
         translate([0, 0, base_bottom - 1])
@@ -71,6 +69,8 @@ module base() {
         
         translate([0, 0, base_bottom])
         base_screws();
+        
+        usb_flatten(base_height);
     }
 }
 

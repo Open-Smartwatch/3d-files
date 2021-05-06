@@ -2,14 +2,11 @@ include <common.scad>;
 
 strap_piece_body_w = 5;
 strap_piece_body_h = 20;
-strap_d = 5;
 strap_latch_l = 6.8;
-strap_latch_ws = 3.3;
-strap_latch_wl = 8.4;
 strap_latch_gap = 2 * 0.2;
 strap_radius = 0.0;
 
-strap_latch_w_body = 13.4;
+strap_latch_w_body = base_strap_w + strap_latch_gap; //13.4;
 
 strap_piece_w = strap_piece_body_w + 2 * strap_latch_l;
 strap_latch_dist = strap_latch_wl + strap_latch_gap;

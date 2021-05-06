@@ -6,12 +6,39 @@ body_radius = 1.5;
 mount_dist_w = 18.0;
 mount_dist_h = 41.0;
 
+face_mount_w = 6.0;
+face_mount_d = face_mount_w;
+
+base_mount_w = mount_dist_w + face_mount_w;
+base_mount_d = 10;
+base_mount_off = 1.65;
+
 nut_dia = 2.0;
 screw_gap = 0.2;
 screw_dia = nut_dia + screw_gap;
 screw_head_dia = 4.0;
 
+usb_flat = 0.7;
+
+button_angle_off = 30;
+
+button_angle_r = 90 + button_angle_off;
+button_angle_1 = 90 - button_angle_off;
+button_angle_2 = -90 + button_angle_off;
+button_angle_3 = -90 - button_angle_off;
+
+strap_d = 5;
+strap_latch_ws = 3.3;
+strap_latch_wl = 8.4;
+base_strap_w = strap_latch_wl; //12.2;
+base_strap_add_l = 0.3;
+
 $fn = 42;
+
+module usb_flatten(h) {
+    translate([-body_dia / 2, -body_dia / 2, -1])
+    cube([usb_flat, body_dia, h + 1.1]);
+}
 
 module roundedcylinder(d, h, r, top = false) {
     hull() // needed, otherwise rendering fails
@@ -129,11 +156,51 @@ module screw_part(add) {
     cylinder(d = screw_dia + add, h = 21);
 }
 
-module screw(nut = false) {
+module screw(nut = false, bottom = false) {
     if (nut) {
-        translate([0, 0, 20])
-        screw_part(-screw_gap);
+        if (bottom) {
+            translate([0, 0, 20])
+            screw_part(-screw_gap);
+        } else {
+            screw_part(-screw_gap);
+        }
     } else {
-        screw_part(0);
+        if (bottom) {
+            translate([0, 0, 20])
+            screw_part(0);
+        } else {
+            screw_part(0);
+        }
+    }
+}
+
+module base_screws(nut = true, bottom = true) {
+    translate([-mount_dist_w / 2, -mount_dist_h / 2, 0])
+    screw(nut, bottom);
+    
+    translate([mount_dist_w / 2, -mount_dist_h / 2, 0])
+    screw(nut, bottom);
+    
+    translate([-mount_dist_w / 2, mount_dist_h / 2, 0])
+    screw(nut, bottom);
+    
+    translate([mount_dist_w / 2, mount_dist_h / 2, 0])
+    screw(nut, bottom);
+}
+
+module body(h, rounded = false) {
+    union() {
+    if (rounded) {
+        roundedcylinder(body_dia, h, body_radius);
+    } else {
+        cylinder(d = body_dia, h = h);
+    }
+    
+    translate([-base_mount_w / 2, -body_dia / 2 - base_mount_off, 0])
+    roundedcube(base_mount_w, base_mount_d, h, body_radius, rounded);
+
+    scale([1, -1, 1])
+    translate([-base_mount_w / 2, -body_dia / 2 - base_mount_off, 0])
+    roundedcube(base_mount_w, base_mount_d, h, body_radius, rounded);
     }
 }
