@@ -109,4 +109,4 @@ module strap(assembled = true, c = strap_rows, angle = 0) {
     }
 }
 
-//strap(true, 1, 10);
+//strap(false);

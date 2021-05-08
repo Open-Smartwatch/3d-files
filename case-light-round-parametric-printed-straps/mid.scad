@@ -224,3 +224,5 @@ module mid() {
 
 //mid();
 //#buttons_assembly();
+
+//buttons_print();

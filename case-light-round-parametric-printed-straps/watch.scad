@@ -3,7 +3,7 @@ include <mid.scad>;
 include <top.scad>;
 include <strap.scad>;
 
-view_assembly = false;
+view_assembly = true;
 
 assembly_dist = 0;
 print_dist = 5;
