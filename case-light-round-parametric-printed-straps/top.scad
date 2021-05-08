@@ -4,7 +4,7 @@ face_hole_dia = 33;
 body_dia = 43.7;
 
 face_glass_dia = 37.0 + 0.3;
-face_glass_height = 1.0 + 0.2;
+face_glass_height = 0; //1.0 + 0.2;
 
 face_cyl_1_dia = body_dia;
 face_cyl_1_height = 0.6;
@@ -15,10 +15,10 @@ face_mount_base = 0.6;
 
 face_height = face_cyl_1_height + face_cyl_2_height;
 
-text_off = face_cyl_2_dia / 2 - (face_cyl_2_dia - face_hole_dia) / 4;
-text_height = face_height - face_glass_height - 0.4;
-text_size = 2;
-text_font = "Droid Sans";
+text_off = face_cyl_2_dia / 2 - (face_cyl_2_dia - face_hole_dia) / 4 + 1.3;
+text_height = face_height - face_glass_height - 0.8;
+text_size = 3.8;
+text_font = "Droid Sans:style=Bold";
 
 module face_base() {
     cylinder(d1 = body_dia, d2 = face_cyl_1_dia, h = face_cyl_1_height);

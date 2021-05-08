@@ -65,8 +65,8 @@ module base() {
             }
         }
         
-        translate([0, 0, base_bottom - 1])
-        base_bat(base_wall + 2);
+        translate([0, 0, base_bottom - 0.01])
+        base_bat(base_wall + 1.01);
         
         translate([0, 0, base_bottom - base_screw_len_add])
         base_screws();

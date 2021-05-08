@@ -2,15 +2,15 @@ include <common.scad>;
 
 use_single_piece_buttons = false;
 
-lcd_parts_height = 6.0 - 1.6;
+lcd_parts_height = 4.3;
 electronics_height = lcd_parts_height + pcb_h;
 
 mid_base = 0.8;
-electronics_dia = 36.7;
-cut_w = 6.2;
-cut_h = 37.3;
+electronics_dia = 37.3;
+cut_w = 7.0;
+cut_h = 38.0;
 cut_tw = 14.5;
-cut_th = 3.5;
+cut_th = 4.5;
 cut_off = 1;
 
 top_cut_w = 14.6;
@@ -24,6 +24,9 @@ bot_cut_wall_w = 1.2;
 
 usb_w = 8.3;
 usb_h = 3.8;
+usb_cut = 8.5;
+usb_cut_off = 0.7;
+usb_cut_len = 1.6;
 
 mid_strap_cut_w = 10;
 mid_strap_cut_h = 5;
@@ -36,7 +39,7 @@ mid_button_height = 3.0;
 mid_button_depth = 4.0;
 mid_button_gap_width = 2.6;
 mid_button_gap_wall = 1.6;
-mid_button_off = 1.3; //pcb_h - 0.3;
+mid_button_off = 0.25; //1.3; //pcb_h - 0.3;
 mid_button_holder_width = 5.4;
 mid_button_holder_depth = 1.4;
 
@@ -48,7 +51,7 @@ button_wing = 0.5;
 button_wing_len = 1.0;
 
 mid_snap_dia = 2;
-mid_snap_off = 2.5 + 0.2;
+mid_snap_off = 2.55;
 
 mid_threshold = 4.0;
 
@@ -175,6 +178,9 @@ module mid() {
         translate([-body_dia / 2 - 1, -usb_w / 2, mid_base])
         cube([body_dia / 2, usb_w, usb_h]);
         
+        translate([-usb_cut_len - body_dia / 2 + (body_dia - electronics_dia) / 2 + usb_cut_off, -usb_cut / 2, mid_base])
+        cube([usb_cut_len, usb_cut, mid_height]);
+        
         usb_flatten(mid_height);
         
         for (i = [button_angle_r, button_angle_1, button_angle_2, button_angle_3]) {
@@ -202,16 +208,16 @@ module mid() {
         }
     }
     
-    rotate([0, 0, -135])
+    rotate([0, 0, -135 - 10])
     translate([0, -body_dia / 2 + mid_snap_off, mid_base])
     cylinder(d = mid_snap_dia, h = mid_height - mid_base);
-    rotate([0, 0, -45])
+    rotate([0, 0, -45 + 10])
     translate([0, -body_dia / 2 + mid_snap_off, mid_base])
     cylinder(d = mid_snap_dia, h = mid_height - mid_base);
-    rotate([0, 0, 135])
+    rotate([0, 0, 135 + 10])
     translate([0, -body_dia / 2 + mid_snap_off, mid_base])
     cylinder(d = mid_snap_dia, h = mid_height - mid_base);
-    rotate([0, 0, 45])
+    rotate([0, 0, 45 - 10])
     translate([0, -body_dia / 2 + mid_snap_off, mid_base])
     cylinder(d = mid_snap_dia, h = mid_height - mid_base);
 }

@@ -13,15 +13,15 @@ base_mount_w = mount_dist_w + face_mount_w;
 base_mount_d = 10;
 base_mount_off = 1.65;
 
-nut_dia = 2.0;
-screw_gap = 0.3;
-screw_dia = nut_dia + screw_gap;
+nut_dia = 1.9;
+screw_dia = 2.3;
+screw_gap = screw_dia - nut_dia;
 screw_head_dia = 5.0;
 screw_head_height = 2.3;
 
 usb_flat = 0.7;
 
-button_angle_off = 30;
+button_angle_off = 32.5;
 
 button_angle_r = 90 + button_angle_off;
 button_angle_1 = 90 - button_angle_off;
