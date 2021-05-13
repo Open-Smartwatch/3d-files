@@ -1,4 +1,4 @@
-# Open-Smartwatch 3D Files
+# Open-Smartwatch Sleek-Case 3D Files
 Sleeker design made to be as compact and "watch like" as possible
 
 Fits with 1.6mm light pcb and round battery
