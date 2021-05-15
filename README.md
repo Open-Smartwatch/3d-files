@@ -25,7 +25,6 @@ The case requires 4 6mm M1.4 hex screws.
 
 There will most likely be some sanding of the button's back face required for them to fit snugly and also not keep the button depressed. 30 seconds on 600 grit sandpaper should work
 
-Compatible with any standard 20mm watch band.
 
 ## Tools
 
