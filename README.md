@@ -1,4 +1,22 @@
-# Open-Smartwatch Sleek-Case 3D Files
+# Open-Smartwatch 3D Files
+
+How to read the folder names:
+
+- first part:
+  - light edition
+  - light edition with round lipo
+  - gps edition
+- second part:
+  - 0.8mm pcb
+  - 1.6mm pcb
+- third part:
+  - 20mm pin wrist straps
+  - 3d printed wrist straps
+
+The case requires 10mm M2 hex screws. The printed straps require 6mm M2 hex screws.
+
+
+## Sleek-Case 3D Files
 Sleeker design made to be as compact and "watch like" as possible
 
 Fits with 1.6mm light pcb and round battery
@@ -11,5 +29,6 @@ Compatible with any standard 20mm watch band.
 
 ## Tools
 
-The design files and are made with SolidWorks.
+The design files from *case* and *watch-faces* are made with [https://blender.org](https://blender.org).
+The design files from *sleek-case* are made with SolidWorks.
 
