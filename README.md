@@ -30,5 +30,6 @@ Compatible with any standard 20mm watch band.
 ## Tools
 
 The design files from *case* and *watch-faces* are made with [https://blender.org](https://blender.org).
+
 The design files from *sleek-case* are made with SolidWorks.
 
