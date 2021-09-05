@@ -32,3 +32,5 @@ The design files from *case* and *watch-faces* are made with [https://blender.or
 
 The design files from *sleek-case* are made with SolidWorks.
 
+The design files from *case-light-round-parametric* are made with OpenSCAD.
+
