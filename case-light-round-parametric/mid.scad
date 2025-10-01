@@ -39,7 +39,7 @@ mid_button_height = 3.0;
 mid_button_depth = 4.0;
 mid_button_gap_width = 2.6;
 mid_button_gap_wall = 1.6;
-mid_button_off = 0.25; //1.3; //pcb_h - 0.3;
+mid_button_off = 0;//0.25; //1.3; //pcb_h - 0.3;
 mid_button_holder_width = 5.4;
 mid_button_holder_depth = 1.4;
 
@@ -50,7 +50,7 @@ button_radius = 0.5;
 button_wing = 0.5;
 button_wing_len = 1.0;
 
-mid_snap_dia = 2;
+mid_snap_dia = 2 + 0.2;
 mid_snap_off = 2.55;
 
 mid_threshold = 4.0;
@@ -222,7 +222,13 @@ module mid() {
     cylinder(d = mid_snap_dia, h = mid_height - mid_base);
 }
 
-//mid();
-//#buttons_assembly();
+module mid_assembly() {
+    mid();
 
+    color("red")
+    buttons_assembly();
+}
+
+//mid_assembly();
+//mid();
 //buttons_print();

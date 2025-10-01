@@ -1,23 +1,25 @@
 include <common.scad>;
 
+draw_text = false;
+
 face_hole_dia = 33;
 body_dia = 43.7;
 
-face_glass_dia = 37.0 + 0.3;
-face_glass_height = 0; //1.0 + 0.2;
+face_glass_dia = 37.4;
+face_glass_height = 1.85;
 
 face_cyl_1_dia = body_dia;
-face_cyl_1_height = 0.6;
+face_cyl_1_height = 1.0;
 face_cyl_2_dia = 39.0;
-face_cyl_2_height = 1.5;
+face_cyl_2_height = 1.4;
 
 face_mount_base = 0.6;
 
 face_height = face_cyl_1_height + face_cyl_2_height;
 
-text_off = face_cyl_2_dia / 2 - (face_cyl_2_dia - face_hole_dia) / 4 + 1.3;
-text_height = face_height - face_glass_height - 0.8;
-text_size = 3.8;
+text_off = face_cyl_2_dia / 2 - (face_cyl_2_dia - face_hole_dia) / 4 + 0.5;
+text_height = face_height - face_glass_height - 0.4;
+text_size = 3.0;
 text_font = "Droid Sans:style=Bold";
 
 module face_base() {
@@ -113,6 +115,7 @@ module face() {
         translate([0, 0, -1])
         cylinder(d = face_glass_dia, h = face_glass_height + 1);
         
+        if (draw_text)
         translate([0, 0, face_height - text_height]) {
             text_rotated("R", button_angle_r);
             text_rotated("1", button_angle_1);
